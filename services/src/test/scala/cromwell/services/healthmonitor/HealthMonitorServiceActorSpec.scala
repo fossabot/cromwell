@@ -26,7 +26,7 @@ class HealthMonitorServiceActorSpec extends TestKitSuite with AsyncFlatSpecLike 
   it should "return ok status when all subsystems succeed" in {
     val hm = newHealthMonitorActor(Set(SuccessSubsystem))
     // Need to give a little bit of time for the cache to update
-    Thread.sleep(2000)
+    Thread.sleep(5000)
     hm.ask(GetCurrentStatus).mapTo[StatusCheckResponse] map { resp =>
       assert(resp.ok)
       assert(resp.systems.collectFirst { case (name, status) if status.ok => name }.contains(SuccessSubsystem.name))
@@ -36,7 +36,7 @@ class HealthMonitorServiceActorSpec extends TestKitSuite with AsyncFlatSpecLike 
   it should "fail if any subsystems fail but correctly bin them" in {
     val hm = newHealthMonitorActor()
     // Need to give a little bit of time for the cache to update
-    Thread.sleep(2000)
+    Thread.sleep(5000)
     hm.ask(GetCurrentStatus).mapTo[StatusCheckResponse] map { resp =>
       assert(!resp.ok)
       val (ok, notOk) = resp.systems.partition { case (_, status) => status.ok }
@@ -67,7 +67,7 @@ class HealthMonitorServiceActorSpec extends TestKitSuite with AsyncFlatSpecLike 
 
     val hm = newHealthMonitorActor(Set(timeoutSubsystem))
     // Need to give a little bit of time for the cache to update
-    Thread.sleep(2000)
+    Thread.sleep(5000)
     hm.ask(GetCurrentStatus).mapTo[StatusCheckResponse] map { resp =>
       assert(!resp.ok)
       assert(resp.systems.keySet.headOption.contains(timeoutSubsystem.name))
@@ -80,7 +80,7 @@ class HealthMonitorServiceActorSpec extends TestKitSuite with AsyncFlatSpecLike 
   it should "record the error messages of the failures" in {
     val hm = newHealthMonitorActor(Set(FailSubsystem))
     // Need to give a little bit of time for the cache to update
-    Thread.sleep(2000)
+    Thread.sleep(5000)
     hm.ask(GetCurrentStatus).mapTo[StatusCheckResponse] map { resp =>
       assert(!resp.ok)
       assert(resp.systems.keySet.headOption.contains(FailSubsystem.name))
@@ -116,7 +116,7 @@ class HealthMonitorServiceActorSpec extends TestKitSuite with AsyncFlatSpecLike 
     val hm = newHealthMonitorActor(Set(failAndCountSubsystem), retryCount = 2, storeChecker = Option(storeChecker))
     hm ! Check(failAndCountSubsystem, 2)
 
-    Thread.sleep(2000L)
+    Thread.sleep(5000L)
     // Assert status was stored exactly twice, initially ok and then not ok.
     assert(statusStores.map(_.ok) == List(true, false))
     Future.successful(assert(statusCheckCount == 4))
