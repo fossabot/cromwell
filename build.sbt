@@ -255,5 +255,3 @@ lazy val root = (project in file("."))
   .aggregate(wdlTransformsDraft3)
   .aggregate(wom)
   .aggregate(womtool)
-  // TODO: See comment in plugins.sbt regarding SBT 1.x
-  .enablePlugins(CrossPerProjectPlugin)
