@@ -53,7 +53,7 @@ class MetadataServiceActorSpec extends ServicesSpec("Metadata") {
       val query4 = MetadataQuery.forWorkflow(workflowId)
       val query5 = MetadataQuery.forJob(workflowId, supJob)
 
-      eventually(Timeout(10.seconds), Interval(2.seconds)) {
+      eventually(Timeout(30.seconds), Interval(2.seconds)) {
         (for {
           response1 <- (actor ? GetMetadataQueryAction(query1)).mapTo[MetadataServiceResponse]
           _ = response1 shouldBe MetadataLookupResponse(query1, Seq(event1_1, event1_2))
