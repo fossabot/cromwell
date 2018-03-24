@@ -140,7 +140,7 @@ object Settings {
   )
 
   val crossVersionSettings = List(
-    crossScalaVersions := List(ScalaVersion212, ScalaVersion211)
+    crossScalaVersions := List(ScalaVersion211)
   )
 
   val dockerTags = settingKey[Seq[String]]("The tags for docker builds.")
