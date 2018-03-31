@@ -11,7 +11,7 @@ case class OutputParameterExpression(parameter: OutputParameter,
                                      override val inputs: Set[String],
                                      override val expressionLib: ExpressionLib) extends CwlWomExpression {
 
-  override def sourceString = parameter.toString
+  override def sourceString = parameter.outputBinding.toString
 
   private def evaluateOutputBinding(inputValues: Map[String, WomValue],
                                     ioFunctionSet: IoFunctionSet,

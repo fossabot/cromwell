@@ -100,7 +100,7 @@ class CallCacheHashingJobActor(jobDescriptor: BackendJobDescriptor,
       stopAndStay(None)
   }
   
-  // Is its own function so it can be overriden in the test
+  // Is its own function so it can be overridden in the test
   private [callcaching] def addFileHash(hashResult: HashResult, data: CallCacheHashingJobActorData) = {
     data.withFileHash(hashResult)
   }
